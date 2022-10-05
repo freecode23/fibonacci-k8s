@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    # to attach to redis
+    component: redis
+  ports:
+    # how other pods access to our pod. come in using this port
+    - port: 6379
+      # port on the target port (redis) that we provide access to
+      targetPort: 6379

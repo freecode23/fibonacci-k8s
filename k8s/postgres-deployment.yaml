@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: postgres-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgres
+  # template for each pod
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      # 1. pg need to reach out cloud or hard drive to get persistent storage
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      # each pod can have different containers doing 1 job
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts: # this is how I want the storage to be used in my container
+            # same name in number 1. above in volumes
+            - name: postgres-storage
+              # we want to make a back up of this storage that exist in postgres container
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+
+
+            

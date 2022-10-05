@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: server-deployment
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: server
+  # template for each pod
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      # each pod can have different containers doing 1 job
+      containers:
+        - name: server
+          image: cygnetops/multi-server-pgfix-5-11
+          ports:
+            # nginx inside the multi-server will listen on this
+            - containerPort: 5000
+          env:
+          # 1. redis env
+          - name: REDIS_HOST
+            value: redis-cluster-ip-service
+          - name: REDIS_PORT
+            value: '6379'
+
+          # 2. pg
+          # the names are what is used in our index.js files
+          - name: PGUSER
+            value: postgres
+          - name: PGHOST
+            value: postgres-cluster-ip-service
+          - name: PGPORT
+            value: '5432'
+          - name: PGDATABASE
+            value: postgres
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pgpassword
+                key: PGPASSWORD
+
+          
+          
+          
