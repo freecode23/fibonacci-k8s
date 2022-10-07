@@ -33,13 +33,13 @@ before_install:
   # 6. tell which cluster it should be working on. name is fibonacci-cluster
   - gcloud container clusters get-credentials fibonacci-cluster
 
-  # 7. login on docker
+  # 7. login on docker from Travis dashboard
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # 8. build image
   # assign the dockerfile development version
-  # specify the build contect: ./client
-  - docker build -t cygnetops/react-test -f ./client/Dockerfile.dev ./client
+  # specify the build context: ./client
+  - docker build -t freecode23/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true cygnetops/react-test npm test
+  - docker run -e CI=true freecode23/react-test npm test
