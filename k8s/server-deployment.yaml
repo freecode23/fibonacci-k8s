@@ -17,7 +17,7 @@ spec:
       # each pod can have different containers doing 1 job
       containers:
         - name: server
-          image: cygnetops/multi-server-pgfix-5-11
+          image: freecode23/fibonacci-server-k8s
           ports:
             # nginx inside the multi-server will listen on this
             - containerPort: 5000

@@ -17,7 +17,7 @@ spec:
       # each pod can have different containers doing 1 job
       containers:
         - name: client
-          image: stephengrider/multi-client
+          image: freecode23/fibonacci-client-k8s
           ports:
             # nginx inside the multi-client will listen on this
             - containerPort: 3000

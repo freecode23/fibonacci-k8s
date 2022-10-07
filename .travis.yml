@@ -47,12 +47,12 @@ before_install:
 script:
   - docker run -e CI=true freecode23/react-test npm test
 
-# deploy:
-#   # we were using elastic bean stalk. now its just our own script
-#   provider: script
+deploy:
+  # we were using elastic bean stalk. now its just our own script
+  provider: script
 
-#   # our scruipt
-#   script: bash ./deploy.sh
+  # our scruipt
+  script: bash ./deploy.sh
 
-#   on: 
-#     branch: master
+  on: 
+    branch: master

@@ -17,7 +17,7 @@ spec:
       # each pod can have different containers doing 1 job
       containers:
         - name: worker
-          image: stephengrider/multi-worker
+          image: freecode23/fibonacci-worker-k8s
           # no ports
           env:
             # redis env
