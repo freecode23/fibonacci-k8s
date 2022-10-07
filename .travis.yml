@@ -1,0 +1,45 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+# what we do in travis environment:
+before_install:
+
+
+
+  # 1. install google cloud sdk on our instance
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+
+  # 2. apply this config that will modify our shell inside travis using source command
+  - source $HOME/google-cloud-sdk/path.bash.inc
+
+  # 3. install kubectl
+  - gcloud components update kubectld
+
+  # 4. authorization with google cloud this is liek IAM in amazon
+  # encrypt and decrypt
+  - openssl aes-256-cbc -K $encrypted_9f3b5599b056_key -iv $encrypted_9f3b5599b056_iv -in service-account.json.enc -out service-account.json -d 
+
+  # placed the decrypted file to authorize gcloud
+  - gcloud auth activate-service-account --key-file service-account.json
+
+  # 5. tell gcloud cli what project and what zone we want to operate on
+  # get the project name from oproject selector on top bar
+  - gcloud config set project fibonacci-k8s-364602
+  - gcloud config set compute/zone us-central1-c
+
+  # 6. tell which cluster it should be working on. name is fibonacci-cluster
+  - gcloud container clusters get-credentials fibonacci-cluster
+
+  # 7. login on docker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # 8. build image
+  # assign the dockerfile development version
+  # specify the build contect: ./client
+  - docker build -t cygnetops/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true cygnetops/react-test npm test
