@@ -18,7 +18,7 @@ before_install:
   - source $HOME/google-cloud-sdk/path.bash.inc
 
   # 3. install kubectl
-  - gcloud components update kubectld
+  - gcloud components update kubectl
 
   # 4. authorization with google cloud this is liek IAM in amazon
   # encrypt and decrypt
