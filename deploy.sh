@@ -1,11 +1,7 @@
 # 1. deployment
 docker build -t freecode23/fibonacci-client-k8s:latest -t freecode23/fibonacci-client-k8s:$SHA -f ./client/Dockerfile ./client
 docker build -t freecode23/fibonacci-server-k8s:latest -t freecode23/fibonacci-server-k8s:$SHA -f ./server/Dockerfile ./server
-
-
-
 docker build -t freecode23/fibonacci-worker-k8s:latest -t freecode23/fibonacci-worker-k8s:$SHA -f ./worker/Dockerfile ./worker
-docker build -t freecode23/fibonacci-worker-k8s:latest -f ./worker/Dockerfile ./worker
 
 
 # 2. push to docker hub

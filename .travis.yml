@@ -1,6 +1,9 @@
 env:
   global:
+    # Will make sure GCloud CLIDoes not try to display any prompts that requries user input
     - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+    # environment variable
+    - SHA=$(git rev-parse HEAD)
 
 sudo: required
 language: generic
@@ -19,7 +22,7 @@ before_install:
 
   # 3. install kubectl
   - gcloud components update kubectl
-
+  
   # 4. authorization with google cloud this is liek IAM in amazon
   # encrypt and decrypt
   - openssl aes-256-cbc -K $encrypted_9f3b5599b056_key -iv $encrypted_9f3b5599b056_iv -in service-account.json.enc -out service-account.json -d 
